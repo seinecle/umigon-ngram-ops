@@ -17,16 +17,16 @@ NGramFinder ngramFinder = new NGramFinder(input);
 Multiset<String> ngrams = ngramFinder.run(4, false);
 ```
 
-- The result is __not__ a Guava Multiset but a convenience Collection method doing the same thing (in a very light way).
+- The result is a map where they key is the n-gram, and the value is the count of this n-gram.
 - The parameter ```4``` means that the nGram detector will identify 2, 3 and 4 grams.
-- The parameter ```false``` means that _for a given input String_, an ngram will be counted just once (even if it appears several times within this piece of text).
+- The parameter ```false``` means that _for a given input String_, an ngram will be counted just once (even if it appears several times within this piece of text). In practice, this means all the keys will have a value of 1 in the Map returned by the function.
 
 #### To clean n-grams (see above)
 ```java
 NGramDuplicatesCleaner cleaner = new NGramDuplicatesCleaner("en");
 Map<String, Integer> cleanedNGrams = cleaner.removeDuplicates(ngrams, 4,true);
 ```
-- The result is a map where they key is the n-gram, and the value is the count of this n-gram.
+- The result is a map where they keys are the cleaned n-grams, and the values are the counts for cleaned n-grams.
 - The parameter ```4``` means that the nGram cleaner will work on 2, 3 and 4 grams.
 - The parameter ```true``` means that ngrams appearing just once will be removed. In practice, this means all the keys will have a value of 1 in the Map returned by the function.
 
