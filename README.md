@@ -24,11 +24,11 @@ Multiset<String> ngrams = ngramFinder.run(4, false);
 #### To clean n-grams (see above)
 ```java
 NGramDuplicatesCleaner cleaner = new NGramDuplicatesCleaner("en");
-Multiset<String> cleanedNGrams = cleaner.removeDuplicates(ngrams, 4,true);
+Map<String, Integer> cleanedNGrams = cleaner.removeDuplicates(ngrams, 4,true);
 ```
-- The result is __not__ a Guava Multiset but a convenience Collection method doing the same thing (in a very light way).
+- The result is a map where they key is the n-gram, and the value is the count of this n-gram.
 - The parameter ```4``` means that the nGram cleaner will work on 2, 3 and 4 grams.
-- The parameter ```true``` means that ngrams appearing just once will be removed.
+- The parameter ```true``` means that ngrams appearing just once will be removed. In practice, this means all the keys will have a value of 1 in the Map returned by the function.
 
 ### Dependencies
 None
