@@ -37,13 +37,13 @@ public class NGramDuplicatesCleaner {
         stopWords = new HashSet();
     }
 
-    public Map<String, Integer> removeDuplicates(Multiset<String> setNGrams, int maxGrams, boolean removeSingleTerms) {
+    public Map<String, Integer> removeDuplicates(Map<String,Integer> mapNGrams, int maxGrams, boolean removeSingleTerms) {
 
         // this factor determines to what extent, if "European Union" is frequently used, then "Union" alone should not be removed from relevant ngrams
         // the higher the factor, the harder it is for "Union" to remain.
         // rule of thumb: on a small text, this factor should be higher.
         float factorRemovingIrrelevantUnigrams;
-        if (setNGrams.getElementSet().size() < 500) {
+        if (mapNGrams.keySet().size() < 500) {
             factorRemovingIrrelevantUnigrams = 2f;
         } else {
             factorRemovingIrrelevantUnigrams = 1.5f;
@@ -51,7 +51,7 @@ public class NGramDuplicatesCleaner {
 
         multisetWords = new Multiset();
         wordsToBeRemoved = new HashSet();
-        itFreqList = setNGrams.getEntrySet().iterator();
+        itFreqList = mapNGrams.entrySet().iterator();
 
         //we start by removing all terms that appear just once in the corpus.
         // why? because we assume these terms are of null interest
@@ -61,11 +61,11 @@ public class NGramDuplicatesCleaner {
                 itFreqList.remove();
             }
         }
-        System.out.println("number of ngrams after purge of unique terms: " + setNGrams.getSize());
+        System.out.println("number of ngrams after purge of unique terms: " + mapNGrams.keySet().size());
 
         // then we remove the terms which appear less frequently individually than in combined expressions 
         for (int i = maxGrams - 1; i > 0; i--) {
-            itFreqList = setNGrams.getEntrySet().iterator();
+            itFreqList = mapNGrams.entrySet().iterator();
             while (itFreqList.hasNext()) {
                 entry = itFreqList.next();
                 currWord = entry.getKey().trim();
@@ -89,10 +89,10 @@ public class NGramDuplicatesCleaner {
                             wordsToBeRemoved.add(term2);
                         }
 
-                        if (setNGrams.getCount(term1) < entry.getValue() * factorRemovingIrrelevantUnigrams) {
+                        if (mapNGrams.get(term1) < entry.getValue() * factorRemovingIrrelevantUnigrams) {
                             wordsToBeRemoved.add(term1.trim());
                         }
-                        if (setNGrams.getCount(term2) < entry.getValue() * factorRemovingIrrelevantUnigrams) {
+                        if (mapNGrams.get(term2) < entry.getValue() * factorRemovingIrrelevantUnigrams) {
                             wordsToBeRemoved.add(term2.trim());
                         }
 
@@ -104,8 +104,8 @@ public class NGramDuplicatesCleaner {
 //                            if (innerNGram.equals("united state")) {
 //                                System.out.println("break");
 //                            }
-                            if (setNGrams.getElementSet().contains(innerNGram)) {
-                                if (setNGrams.getCount(innerNGram) < entry.getValue() * factorRemovingIrrelevantUnigrams) {
+                            if (mapNGrams.keySet().contains(innerNGram)) {
+                                if (mapNGrams.get(innerNGram) < entry.getValue() * factorRemovingIrrelevantUnigrams) {
                                     //one last check before removing the inner ngram:
                                     // if the outter ngram starts with "the" or another very common stopword, then the inner ngram should NOT be removed.
                                     String firstTermOutterNGram = currWord.split(" ")[0];
@@ -125,7 +125,7 @@ public class NGramDuplicatesCleaner {
             }
         }
 
-        itFreqList = setNGrams.getEntrySet().iterator();
+        itFreqList = mapNGrams.entrySet().iterator();
         while (itFreqList.hasNext()) {
             boolean toRemain;
             entry = itFreqList.next();
