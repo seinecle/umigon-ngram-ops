@@ -1,10 +1,10 @@
 ### What?
 Functions to create ngrams __and then to clean them__. Explanation:
 
-- it is easy to create unigrams, bi-grams, tri-grams and 4-grams in a text. An example of a 4-gram is ```United States of America``` (4 terms long)
-- howevever, such a function will also list the following 3-grams: ```United States of``` and also ```States of America```, which are clearly irrelevant
-- for this reason, this repo includes a function called ```NGramDuplicatesCleaner``` which removes these quasi-duplicates.
-- optionally, the cleaner can take a set of stopwords as a parameter to its constructor, which will help achieve better results.
+- ✅ it is easy to create unigrams, bi-grams, tri-grams and 4-grams in a text. An example of a 4-gram is ```United States of America``` (4 terms long)
+- 🔴 howevever, such a function will also list the following 3-grams: ```United States of``` and also ```States of America```, which are clearly irrelevant
+- ✅ for this reason, this repo includes a function called ```NGramDuplicatesCleaner``` which removes these quasi-duplicates.
+- ➕ optionally, the cleaner can take a set of stopwords as a parameter to its constructor, which will help achieve better results.
 
 ### How to use it?
 
@@ -14,7 +14,7 @@ List<String> input = new ArrayList();
 input.add("This is my first sentence");
 input.add("This is my second sentence");
 NGramFinder ngramFinder = new NGramFinder(input);
-Multiset<String> ngrams = ngramFinder.run(4, false);
+Map<String, Integer> ngrams = ngramFinder.run(4, false);
 ```
 
 - The result is a map where they key is the n-gram, and the value is the count of this n-gram.
@@ -23,12 +23,12 @@ Multiset<String> ngrams = ngramFinder.run(4, false);
 
 #### To clean n-grams (see above)
 ```java
-NGramDuplicatesCleaner cleaner = new NGramDuplicatesCleaner("en");
+NGramDuplicatesCleaner cleaner = new NGramDuplicatesCleaner();
 Map<String, Integer> cleanedNGrams = cleaner.removeDuplicates(ngrams, 4,true);
 ```
 - The result is a map where they keys are the cleaned n-grams, and the values are the counts for cleaned n-grams.
 - The parameter ```4``` means that the nGram cleaner will work on 2, 3 and 4 grams.
-- The parameter ```true``` means that ngrams appearing just once will be removed. In practice, this means all the keys will have a value of 1 in the Map returned by the function.
+- The parameter ```true``` means that ngrams appearing just once will be removed.
 
 ### Dependencies
 None
