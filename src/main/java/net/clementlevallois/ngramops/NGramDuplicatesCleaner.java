@@ -88,11 +88,14 @@ public class NGramDuplicatesCleaner {
                         if (stopWords.contains(term2)) {
                             wordsToBeRemoved.add(term2);
                         }
+                        
+                        Integer countTerm1 = mapNGrams.get(term1);
+                        Integer countTerm2 = mapNGrams.get(term2);
 
-                        if (mapNGrams.get(term1) < entry.getValue() * factorRemovingIrrelevantUnigrams) {
+                        if (countTerm1!=null && countTerm1 < entry.getValue() * factorRemovingIrrelevantUnigrams) {
                             wordsToBeRemoved.add(term1.trim());
                         }
-                        if (mapNGrams.get(term2) < entry.getValue() * factorRemovingIrrelevantUnigrams) {
+                        if (countTerm2!=null && countTerm2  < entry.getValue() * factorRemovingIrrelevantUnigrams) {
                             wordsToBeRemoved.add(term2.trim());
                         }
 

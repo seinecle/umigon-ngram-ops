@@ -4,6 +4,6 @@
  * and open the template in the editor.
  */
 
-module NGramOps {
+module net.clementlevallois.ngramops {
     exports net.clementlevallois.ngramops;
 }
