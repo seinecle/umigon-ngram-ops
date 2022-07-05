@@ -30,8 +30,13 @@ Map<String, Integer> cleanedNGrams = cleaner.removeDuplicates(ngrams, 4,true);
 - The parameter ```4``` means that the nGram cleaner will work on 2, 3 and 4 grams.
 - The parameter ```true``` means that ngrams appearing just once will be removed.
 
+#### New: n-gram detection with data structures
+The new class `NGramDetectionBisForTextFragment` is part of the wider umigon family project, which introduces data structures to handle text ops with rigor. In particular, the data structures allow for the preservation of the indices of text fragments even with the detection of n-grams and the removal of (some, not all) punctuation signs.
+**Check the repos of the umigon family here on Github for more information**
+
+
 ### Dependencies
-None
+Direct dependencies: umigon-model (see the repo) and umigon-tokenizer (see the repo).
 
 ### Origin?
 This function is developed by Clement Levallois, in support of academic work published [in various places](https://scholar.google.fr/citations?user=r0R0vekAAAAJ&hl=en). It is now used in support of [a web app providing free text analysis for non coders](https://nocodefunctions.com).

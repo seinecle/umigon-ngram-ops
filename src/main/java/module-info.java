@@ -5,5 +5,8 @@
  */
 
 module net.clementlevallois.ngramops {
+    
+    requires net.clementlevallois.umigon.model;
+    requires net.clementlevallois.umigon.tokenizer;
     exports net.clementlevallois.ngramops;
 }
