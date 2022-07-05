@@ -17,7 +17,7 @@ import net.clementlevallois.umigon.tokenizer.controller.UmigonTokenizer;
 
 /**
  *
- * @author LEVALLOIS copied from https://stackoverflow.com/a/13977401/798502
+ * @author LEVALLOIS adapted from https://stackoverflow.com/a/13977401/798502
  */
 public class NGramFinderBisForTextFragments {
 
