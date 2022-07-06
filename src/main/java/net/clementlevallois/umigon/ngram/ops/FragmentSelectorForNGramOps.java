@@ -1,12 +1,14 @@
 /*
  * author: Clément Levallois
  */
-package net.clementlevallois.ngramops;
+package net.clementlevallois.umigon.ngram.ops;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import net.clementlevallois.umigon.model.TextFragment;
 import net.clementlevallois.umigon.model.TypeOfTextFragment;
 import static net.clementlevallois.umigon.model.TypeOfTextFragment.TypeOfTextFragmentEnum.TEXTO_SPEAK;
@@ -20,9 +22,9 @@ public class FragmentSelectorForNGramOps {
 
     public static void main(String args[]) throws IOException {
         String example = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
-        UmigonTokenizer tokenizer = new UmigonTokenizer();
-        List<TextFragment> allTextFragments = tokenizer.tokenize(example);
-        List<List<TextFragment>> listOfTextFragments = new FragmentSelectorForNGramOps().doTheSelection(allTextFragments);
+        Set<String> languageSpecificLexicon = new HashSet();
+        List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
+        List<List<TextFragment>> listOfTextFragments = new FragmentSelectorForNGramOps().returnListsOfTextFragmentsWithTermsOnly(allTextFragments);
         for (List<TextFragment> textFragments : listOfTextFragments) {
             for (TextFragment textFragment : textFragments) {
                 System.out.print(textFragment.getString());
@@ -32,7 +34,7 @@ public class FragmentSelectorForNGramOps {
         }
     }
 
-    public List<List<TextFragment>> doTheSelection(List<TextFragment> textFragments) {
+    public List<List<TextFragment>> returnListsOfTextFragmentsWithTermsOnly(List<TextFragment> textFragments) {
         List<List<TextFragment>> listOfListsOfTextFragments = new ArrayList();
         List<TextFragment> listOfTextFragments = new ArrayList();
         Iterator<TextFragment> it = textFragments.iterator();

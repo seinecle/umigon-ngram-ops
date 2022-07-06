@@ -1,4 +1,4 @@
-package net.clementlevallois.ngramops;
+package net.clementlevallois.umigon.ngram.ops;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-module net.clementlevallois.ngramops {
+module net.clementlevallois.umigon.ngram.ops {
     
     requires net.clementlevallois.umigon.model;
     requires net.clementlevallois.umigon.tokenizer;
-    exports net.clementlevallois.ngramops;
+    
+    exports net.clementlevallois.umigon.ngram.ops;
 }

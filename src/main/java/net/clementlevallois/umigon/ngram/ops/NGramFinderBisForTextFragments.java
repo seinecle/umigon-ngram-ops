@@ -1,4 +1,4 @@
-package net.clementlevallois.ngramops;
+package net.clementlevallois.umigon.ngram.ops;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,8 +7,10 @@ package net.clementlevallois.ngramops;
  */
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 import net.clementlevallois.umigon.model.NGram;
 import net.clementlevallois.umigon.model.Term;
 import net.clementlevallois.umigon.model.TextFragment;
@@ -23,12 +25,12 @@ public class NGramFinderBisForTextFragments {
 
     public static void main(String[] args) throws IOException {
         String example = "J'aime, vraiment vous êtes des champions (même toi!) http://momo";
-        UmigonTokenizer tokenizer = new UmigonTokenizer();
-        List<TextFragment> allTextFragments = tokenizer.tokenize(example);
+        Set<String> languageSpecificLexicon = new HashSet();
+        List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
         List<TextFragment> allTextFragmentsAugmentedWithNGrams = new ArrayList();
-        List<List<TextFragment>> listOfTextFragments = new FragmentSelectorForNGramOps().doTheSelection(allTextFragments);
+        List<List<TextFragment>> listOfTextFragments = new FragmentSelectorForNGramOps().returnListsOfTextFragmentsWithTermsOnly(allTextFragments);
         for (List<TextFragment> listOfFragments : listOfTextFragments) {
-            List<TextFragment> generateNgramsUpto = new NGramFinderBisForTextFragments().generateNgramsUpto(listOfFragments, 5);
+            List<TextFragment> generateNgramsUpto = NGramFinderBisForTextFragments.generateNgramsUpto(listOfFragments, 5);
             allTextFragmentsAugmentedWithNGrams.addAll(generateNgramsUpto);
         }
         for (TextFragment textFragment : allTextFragmentsAugmentedWithNGrams) {
@@ -51,7 +53,7 @@ public class NGramFinderBisForTextFragments {
 
     }
 
-    public List<TextFragment> generateNgramsUpto(List<TextFragment> textFragments, int maxGramSize) {
+    public static List<TextFragment> generateNgramsUpto(List<TextFragment> textFragments, int maxGramSize) {
 
         List<TextFragment> textFragmentsAugmentedWithNGrams = new ArrayList();
         int ngramSize;
@@ -60,14 +62,24 @@ public class NGramFinderBisForTextFragments {
         ListIterator<TextFragment> it = textFragments.listIterator();
         while (it.hasNext()) {
             TextFragment word = it.next();
+            if (!(word instanceof Term)) {
+                System.out.println("alert a non term detected in method generateNgramsUpto");
+                System.out.println("textFragment was: " + word.getString());
+                continue;
+            }
+            Term term = (Term) word;
 
             //1- add the word itself
-            textFragmentsAugmentedWithNGrams.add(word);
+            NGram newNgramOneTerm = new NGram();
+            newNgramOneTerm.getTerms().add(term);
+            newNgramOneTerm.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM);
+            newNgramOneTerm.setIndexCardinal(term.getIndexCardinal());
+            textFragmentsAugmentedWithNGrams.add(newNgramOneTerm);
 
             //2- open a new NGram
             ngram = new NGram();
             ngram.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM);
-            ngram.getTerms().add((Term) word);
+            ngram.getTerms().add(term);
             ngramSize = 1;
 
             // call to 'previous()' to stay on the same term on the next iteration forward
@@ -79,6 +91,7 @@ public class NGramFinderBisForTextFragments {
                 NGram newNgram = new NGram();
                 newNgram.getTerms().addAll(ngram.getTerms());
                 newNgram.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM);
+                newNgram.setIndexCardinal(newNgram.getTerms().get(0).getIndexCardinal());
                 textFragmentsAugmentedWithNGrams.add(newNgram);
                 ngramSize++;
             }
