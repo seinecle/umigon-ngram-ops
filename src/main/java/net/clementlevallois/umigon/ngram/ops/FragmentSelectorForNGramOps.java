@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import net.clementlevallois.umigon.model.NGram;
+import net.clementlevallois.umigon.model.SentenceLike;
+import net.clementlevallois.umigon.model.Term;
 import net.clementlevallois.umigon.model.TextFragment;
 import net.clementlevallois.umigon.model.TypeOfTextFragment;
 import static net.clementlevallois.umigon.model.TypeOfTextFragment.TypeOfTextFragmentEnum.TEXTO_SPEAK;
@@ -24,9 +27,9 @@ public class FragmentSelectorForNGramOps {
         String example = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
         Set<String> languageSpecificLexicon = new HashSet();
         List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
-        List<List<TextFragment>> listOfTextFragments = new FragmentSelectorForNGramOps().returnListsOfTextFragmentsWithTermsOnly(allTextFragments);
-        for (List<TextFragment> textFragments : listOfTextFragments) {
-            for (TextFragment textFragment : textFragments) {
+        List<SentenceLike> sentenceLikeFragments = new FragmentSelectorForNGramOps().returnSentenceLikeFragmentsWithTermsOnly(allTextFragments);
+        for (SentenceLike sentenceLike : sentenceLikeFragments) {
+            for (TextFragment textFragment : sentenceLike.getNgrams()) {
                 System.out.print(textFragment.getString());
                 System.out.print(" ");
             }
@@ -34,10 +37,14 @@ public class FragmentSelectorForNGramOps {
         }
     }
 
-    public List<List<TextFragment>> returnListsOfTextFragmentsWithTermsOnly(List<TextFragment> textFragments) {
-        List<List<TextFragment>> listOfListsOfTextFragments = new ArrayList();
-        List<TextFragment> listOfTextFragments = new ArrayList();
+    public List<SentenceLike> returnSentenceLikeFragmentsWithTermsOnly(List<TextFragment> textFragments) {
+        List<SentenceLike> listOfSentenceLikeFragments = new ArrayList();
+        List<NGram> listOfNGrams = new ArrayList();
         Iterator<TextFragment> it = textFragments.iterator();
+        SentenceLike sentenceLike = new SentenceLike();
+        sentenceLike.setIndexCardinal(0);
+        sentenceLike.setIndexOrdinal(0);
+
         while (it.hasNext()) {
             TextFragment nextTextFragment = it.next();
             TypeOfTextFragment.TypeOfTextFragmentEnum typeOfTextFragment = nextTextFragment.getTypeOfTextFragment();
@@ -46,23 +53,40 @@ public class FragmentSelectorForNGramOps {
 //            }
             switch (typeOfTextFragment) {
                 case TERM:
-                    listOfTextFragments.add(nextTextFragment);
+                    if (sentenceLike.getNgrams().isEmpty()) {
+                        sentenceLike.setIndexCardinal(nextTextFragment.getIndexCardinal());
+                    }
+                    nextTextFragment.setIndexOrdinal(listOfNGrams.size());
+                    Term term = (Term) nextTextFragment;
+                    term.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.TERM);
+                    NGram ngram = new NGram();
+                    ngram.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM);
+                    ngram.setIndexCardinal(term.getIndexCardinal());
+                    ngram.setIndexOrdinal(term.getIndexOrdinal());
+                    ngram.setIndexOrdinalInSentence(term.getIndexOrdinalInSentence());
+                    ngram.setIndexCardinalInSentence(term.getIndexCardinalInSentence());
+                    ngram.getTerms().add(term);
+                    listOfNGrams.add(ngram);
                     break;
                 case WHITE_SPACE, TEXTO_SPEAK, ONOMATOPAE, EMOTICON_IN_ASCII, EMOJI, HASHTAG, TOO_SHORT, QUESTION:
                     // do nothing
                     break;
                 case PUNCTUATION:
                     String s = nextTextFragment.getString();
-                    if (s.contains(",") || s.contains("(") || s.contains(")") || s.contains("\"") || s.contains("«") || s.contains("»") || s.contains("“") || s.contains("”") || s.contains("„")) {
-                        listOfListsOfTextFragments.add(listOfTextFragments);
-                        listOfTextFragments = new ArrayList();
+                    if (!sentenceLike.getNgrams().isEmpty() && s.contains(",") || s.contains("(") || s.contains(")") || s.contains("\"") || s.contains("«") || s.contains("»") || s.contains("“") || s.contains("”") || s.contains("„")) {
+                        sentenceLike.getNgrams().addAll(listOfNGrams);
+                        sentenceLike.setIndexOrdinal(listOfSentenceLikeFragments.size());
+                        listOfSentenceLikeFragments.add(sentenceLike);
+                        sentenceLike = new SentenceLike();
+                        listOfNGrams = new ArrayList();
                     }
             }
         }
-        if (!listOfTextFragments.isEmpty()) {
-            listOfListsOfTextFragments.add(listOfTextFragments);
+        sentenceLike.getNgrams().addAll(listOfNGrams);
+        if (!sentenceLike.getNgrams().isEmpty()) {
+            listOfSentenceLikeFragments.add(sentenceLike);
         }
-        return listOfListsOfTextFragments;
+        return listOfSentenceLikeFragments;
     }
 
 }
