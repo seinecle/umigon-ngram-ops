@@ -24,7 +24,8 @@ import net.clementlevallois.umigon.tokenizer.controller.UmigonTokenizer;
 public class FragmentSelectorForNGramOps {
 
     public static void main(String args[]) throws IOException {
-        String example = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
+//        String example = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
+        String example = "Il a de vraies burnes";
         Set<String> languageSpecificLexicon = new HashSet();
         List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
         List<SentenceLike> sentenceLikeFragments = new FragmentSelectorForNGramOps().returnSentenceLikeFragmentsWithTermsOnly(allTextFragments);
@@ -47,6 +48,9 @@ public class FragmentSelectorForNGramOps {
 
         while (it.hasNext()) {
             TextFragment nextTextFragment = it.next();
+//            if (nextTextFragment.getString().equals("burnes")){
+//                System.out.println("stop");
+//            }
             TypeOfTextFragment.TypeOfTextFragmentEnum typeOfTextFragment = nextTextFragment.getTypeOfTextFragment();
 //            if (typeOfTextFragment == null){
 //                System.out.println("stop");
