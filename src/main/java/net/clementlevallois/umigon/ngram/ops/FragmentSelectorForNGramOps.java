@@ -24,8 +24,7 @@ import net.clementlevallois.umigon.tokenizer.controller.UmigonTokenizer;
 public class FragmentSelectorForNGramOps {
 
     public static void main(String args[]) throws IOException {
-//        String example = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
-        String example = "Il a de vraies burnes";
+        String example = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
         Set<String> languageSpecificLexicon = new HashSet();
         List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
         List<SentenceLike> sentenceLikeFragments = new FragmentSelectorForNGramOps().returnSentenceLikeFragmentsWithTermsOnly(allTextFragments);
@@ -51,7 +50,7 @@ public class FragmentSelectorForNGramOps {
 //            if (nextTextFragment.getString().equals("burnes")){
 //                System.out.println("stop");
 //            }
-            TypeOfTextFragment.TypeOfTextFragmentEnum typeOfTextFragment = nextTextFragment.getTypeOfTextFragment();
+            TypeOfTextFragment.TypeOfTextFragmentEnum typeOfTextFragment = nextTextFragment.getTypeOfTextFragmentEnum();
 //            if (typeOfTextFragment == null){
 //                System.out.println("stop");
 //            }
@@ -62,9 +61,7 @@ public class FragmentSelectorForNGramOps {
                     }
                     nextTextFragment.setIndexOrdinal(listOfNGrams.size());
                     Term term = (Term) nextTextFragment;
-                    term.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.TERM);
                     NGram ngram = new NGram();
-                    ngram.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM);
                     ngram.setIndexCardinal(term.getIndexCardinal());
                     ngram.setIndexOrdinal(term.getIndexOrdinal());
                     ngram.setIndexOrdinalInSentence(term.getIndexOrdinalInSentence());
@@ -92,5 +89,4 @@ public class FragmentSelectorForNGramOps {
         }
         return listOfSentenceLikeFragments;
     }
-
 }

@@ -34,13 +34,13 @@ public class NGramFinderBisForTextFragments {
             System.out.println("sentence like fragment #" + countSentenceLikeFragments++);
             List<NGram> generateNgramsUpto = NGramFinderBisForTextFragments.generateNgramsUpto(sentenceLikeFragment.getNgrams(), 5);
             for (TextFragment textFragment : generateNgramsUpto) {
-                if (textFragment.getTypeOfTextFragment() == null) {
+                if (textFragment.getTypeOfTextFragmentEnum() == null) {
                     System.out.println("stop null fragment type");
                 }
-                if (textFragment.getTypeOfTextFragment().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.TERM)) {
+                if (textFragment.getTypeOfTextFragmentEnum().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.TERM)) {
                     System.out.println(textFragment.getString());
                 }
-                if (textFragment.getTypeOfTextFragment().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM)) {
+                if (textFragment.getTypeOfTextFragmentEnum().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM)) {
                     NGram ngram = (NGram) textFragment;
                     List<Term> terms = ngram.getTerms();
                     for (Term term : terms) {
@@ -73,7 +73,6 @@ public class NGramFinderBisForTextFragments {
 
             //2- open a new NGram
             ngram = new NGram();
-            ngram.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM);
             ngram.getTerms().add(word.getTerms().get(0));
             ngramSize = 1;
 
@@ -85,7 +84,6 @@ public class NGramFinderBisForTextFragments {
                 ngram.getTerms().add(0, it.previous().getTerms().get(0));
                 NGram newNgram = new NGram();
                 newNgram.getTerms().addAll(ngram.getTerms());
-                newNgram.setTypeOfTextFragment(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM);
                 newNgram.setIndexCardinal(newNgram.getTerms().get(0).getIndexCardinal());
                 newNgram.setIndexOrdinal(newNgram.getTerms().get(0).getIndexOrdinal());
                 newNgram.setIndexCardinalInSentence(newNgram.getTerms().get(0).getIndexCardinalInSentence());
