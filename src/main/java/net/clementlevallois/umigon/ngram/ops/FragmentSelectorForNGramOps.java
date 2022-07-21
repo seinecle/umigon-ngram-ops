@@ -24,13 +24,14 @@ import net.clementlevallois.umigon.tokenizer.controller.UmigonTokenizer;
 public class FragmentSelectorForNGramOps {
 
     public static void main(String args[]) throws IOException {
-        String example = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
+        String example = "La meuf qui hurle dans le bus parce qu' on s' est assis à côté d' elle... 😒";
+//        String example = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
         Set<String> languageSpecificLexicon = new HashSet();
         List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
         List<SentenceLike> sentenceLikeFragments = new FragmentSelectorForNGramOps().returnSentenceLikeFragmentsWithTermsOnly(allTextFragments);
         for (SentenceLike sentenceLike : sentenceLikeFragments) {
             for (TextFragment textFragment : sentenceLike.getNgrams()) {
-                System.out.print(textFragment.getString());
+                System.out.print(textFragment.getOriginalForm());
                 System.out.print(" ");
             }
             System.out.println("");
@@ -67,13 +68,17 @@ public class FragmentSelectorForNGramOps {
                     ngram.setIndexOrdinalInSentence(term.getIndexOrdinalInSentence());
                     ngram.setIndexCardinalInSentence(term.getIndexCardinalInSentence());
                     ngram.getTerms().add(term);
+                    StringBuilder sb = new StringBuilder();
+                    for (Term termLoop : ngram.getTerms()) {
+                        sb.append(termLoop.getOriginalForm());
+                        sb.append(" ");
+                    }
+                    ngram.setOriginalForm(sb.toString().trim());
+
                     listOfNGrams.add(ngram);
                     break;
-                case WHITE_SPACE, TEXTO_SPEAK, ONOMATOPAE, EMOTICON_IN_ASCII, EMOJI, HASHTAG, TOO_SHORT, QUESTION:
-                    // do nothing
-                    break;
                 case PUNCTUATION:
-                    String s = nextTextFragment.getString();
+                    String s = nextTextFragment.getOriginalForm();
                     if (!sentenceLike.getNgrams().isEmpty() && s.contains(",") || s.contains("(") || s.contains(")") || s.contains("\"") || s.contains("«") || s.contains("»") || s.contains("“") || s.contains("”") || s.contains("„")) {
                         sentenceLike.getNgrams().addAll(listOfNGrams);
                         sentenceLike.setIndexOrdinal(listOfSentenceLikeFragments.size());
@@ -81,6 +86,10 @@ public class FragmentSelectorForNGramOps {
                         sentenceLike = new SentenceLike();
                         listOfNGrams = new ArrayList();
                     }
+                    break;
+                default:
+                    //do nothing
+                    break;
             }
         }
         sentenceLike.getNgrams().addAll(listOfNGrams);

@@ -25,7 +25,8 @@ import net.clementlevallois.umigon.tokenizer.controller.UmigonTokenizer;
 public class NGramFinderBisForTextFragments {
 
     public static void main(String[] args) throws IOException {
-        String example = "J'aime, vraiment vous êtes des champions (même toi!) http://momo";
+        String example = "Nuts have properties)";
+//        String example = "J'aime, vraiment vous êtes des champions (même toi!) http://momo";
         Set<String> languageSpecificLexicon = new HashSet();
         List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
         List<SentenceLike> listOfSentenceLike = new FragmentSelectorForNGramOps().returnSentenceLikeFragmentsWithTermsOnly(allTextFragments);
@@ -38,13 +39,13 @@ public class NGramFinderBisForTextFragments {
                     System.out.println("stop null fragment type");
                 }
                 if (textFragment.getTypeOfTextFragmentEnum().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.TERM)) {
-                    System.out.println(textFragment.getString());
+                    System.out.println(textFragment.getOriginalForm());
                 }
                 if (textFragment.getTypeOfTextFragmentEnum().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM)) {
                     NGram ngram = (NGram) textFragment;
                     List<Term> terms = ngram.getTerms();
                     for (Term term : terms) {
-                        System.out.print(term.getString());
+                        System.out.print(term.getOriginalForm());
                         System.out.print(' ');
                     }
                     System.out.println("");
@@ -64,7 +65,7 @@ public class NGramFinderBisForTextFragments {
             NGram word = it.next();
             if (!(word instanceof NGram)) {
                 System.out.println("alert a non ngram detected in method generateNgramsUpto");
-                System.out.println("textFragment was: " + word.getCleanedNgram());
+                System.out.println("textFragment was: " + word.getOriginalForm());
                 continue;
             }
 
@@ -88,6 +89,13 @@ public class NGramFinderBisForTextFragments {
                 newNgram.setIndexOrdinal(newNgram.getTerms().get(0).getIndexOrdinal());
                 newNgram.setIndexCardinalInSentence(newNgram.getTerms().get(0).getIndexCardinalInSentence());
                 newNgram.setIndexOrdinalInSentence(newNgram.getTerms().get(0).getIndexOrdinalInSentence());
+                StringBuilder sb = new StringBuilder();
+                for (Term term : newNgram.getTerms()) {
+                    sb.append(term.getOriginalForm());
+                    sb.append(" ");
+                }
+                newNgram.setOriginalForm(sb.toString().trim());
+
                 textFragmentsAugmentedWithNGrams.add(newNgram);
                 ngramSize++;
             }
