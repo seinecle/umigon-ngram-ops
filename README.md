@@ -1,4 +1,33 @@
-### What?
+# Umigon
+A family of modules for essential NLP tasks and sentiment analysis, done well.
+
+# The umigon-ngram-ops
+Why another tool for ngrams ?? **Because ngrams are not just a couple of terms separated by whitespaces**
+
+# Releases
+**Maven**
+
+<dependency>
+    <groupId>net.clementlevallois.functions</groupId>
+    <artifactId>umigon-ngram-ops</artifactId>
+    <version>put the latest version here</version>
+</dependency>
+
+**Gradle**
+
+implementation group: 'net.clementlevallois.functions', name: 'umigon-ngram-ops', version: 'put the latest version here'
+
+* 2023, March 28: version 0.11
+
+Fixes a critical issue with the dependency on the tokenizer.
+
+* 2023, March 24: version 0.10
+
+Initial release
+
+
+# Example 
+
 Functions to create ngrams __and then to clean them__. Explanation:
 
 - ✅ it is easy to create unigrams, bi-grams, tri-grams and 4-grams in a text. An example of a 4-gram is ```United States of America``` (4 terms long)
@@ -31,12 +60,11 @@ Map<String, Integer> cleanedNGrams = cleaner.removeDuplicates(ngrams, 4,true);
 - The parameter ```true``` means that ngrams appearing just once will be removed.
 
 #### New: n-gram detection with data structures
+
 The new class `NGramDetectionBisForTextFragment` is part of the wider umigon family project, which introduces data structures to handle text ops with rigor. In particular, the data structures allow for the preservation of the indices of text fragments even with the detection of n-grams and the removal of (some, not all) punctuation signs.
+
 **Check the repos of the umigon family here on Github for more information**
 
-
-### Dependencies
-Direct dependencies: umigon-model (see the repo) and umigon-tokenizer (see the repo).
 
 ### Origin?
 This function is developed by Clement Levallois, in support of academic work published [in various places](https://scholar.google.fr/citations?user=r0R0vekAAAAJ&hl=en). It is now used in support of [a web app providing free text analysis for non coders](https://nocodefunctions.com).
