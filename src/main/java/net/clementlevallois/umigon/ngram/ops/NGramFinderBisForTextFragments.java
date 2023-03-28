@@ -99,7 +99,6 @@ public class NGramFinderBisForTextFragments {
                     sb.append(" ");
                 }
                 newNgram.setOriginalForm(sb.toString().trim());
-
                 textFragmentsAugmentedWithNGrams.add(newNgram);
                 ngramSize++;
             }

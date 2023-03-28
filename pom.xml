@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-        <groupId>net.clementlevallois.functions</groupId>
+    <groupId>net.clementlevallois.functions</groupId>
     <artifactId>umigon-ngram-ops</artifactId>
-    <version>0.10</version>
+    <version>0.11</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -17,17 +17,17 @@
         <dependency>
             <groupId>net.clementlevallois.functions</groupId>
             <artifactId>umigon-model</artifactId>
-			<version>0.10</version>
+            <version>0.10</version>
         </dependency>
         <dependency>
             <groupId>net.clementlevallois.functions</groupId>
             <artifactId>umigon-tokenizer</artifactId>
-			<version>0.10</version>
+            <version>0.11</version>
         </dependency>
         <dependency>
             <groupId>net.clementlevallois.utils</groupId>
             <artifactId>utils-core</artifactId>
-			<version>0.11</version>
+            <version>0.12</version>
         </dependency>
     </dependencies>
 
@@ -100,7 +100,7 @@
                 <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
             </properties>            
             <build>
-                <defaultGoal>deploy</defaultGoal>
+                <defaultGoal>clean deploy</defaultGoal>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
