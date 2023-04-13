@@ -56,7 +56,6 @@ public class NGramDuplicatesCleaner {
         // why? because we assume these terms are of null interest
         while (itFreqList.hasNext()) {
             entry = itFreqList.next();
-            String term = entry.getKey();
             if (entry.getValue() == 1 && removeSingleTerms) {
                 itFreqList.remove();
             }

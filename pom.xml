@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.clementlevallois.functions</groupId>
     <artifactId>umigon-ngram-ops</artifactId>
-    <version>0.11</version>
+    <version>0.12</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -18,11 +18,6 @@
             <groupId>net.clementlevallois.functions</groupId>
             <artifactId>umigon-model</artifactId>
             <version>0.10</version>
-        </dependency>
-        <dependency>
-            <groupId>net.clementlevallois.functions</groupId>
-            <artifactId>umigon-tokenizer</artifactId>
-            <version>0.11</version>
         </dependency>
         <dependency>
             <groupId>net.clementlevallois.utils</groupId>

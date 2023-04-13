@@ -7,16 +7,10 @@ package net.clementlevallois.umigon.ngram.ops;
  */
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Set;
 import net.clementlevallois.umigon.model.NGram;
-import net.clementlevallois.umigon.model.SentenceLike;
 import net.clementlevallois.umigon.model.Term;
-import net.clementlevallois.umigon.model.TextFragment;
-import net.clementlevallois.umigon.model.TypeOfTextFragment;
-import net.clementlevallois.umigon.tokenizer.controller.UmigonTokenizer;
 
 /**
  *
@@ -25,37 +19,37 @@ import net.clementlevallois.umigon.tokenizer.controller.UmigonTokenizer;
 public class NGramFinderBisForTextFragments {
 
     public static void main(String[] args) throws IOException {
-//        String example = "This sentence is hard)";
-//        String example = "I love it, really (I am serious)";
-        String example = "provides a fine-grained analysis";
-        Set<String> languageSpecificLexicon = new HashSet();
-        List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
-        List<SentenceLike> listOfSentenceLike = SentenceLikeFragmentsDetector.returnSentenceLikeFragments(allTextFragments);
-        int countSentenceLikeFragments = 1;
-        for (SentenceLike sentenceLikeFragment : listOfSentenceLike) {
-            System.out.println("sentence like fragment #" + countSentenceLikeFragments++);
-            List<NGram> generateNgramsUpto = NGramFinderBisForTextFragments.generateNgramsUpto(sentenceLikeFragment.getNgrams(), 5);
-            for (TextFragment textFragment : generateNgramsUpto) {
-//                if (textFragment.getOriginalForm().equals("amazing")){
-//                    System.out.println("stop");
+////        String example = "This sentence is hard)";
+////        String example = "I love it, really (I am serious)";
+//        String example = "provides a fine-grained analysis";
+//        Set<String> languageSpecificLexicon = new HashSet();
+//        List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
+//        List<SentenceLike> listOfSentenceLike = SentenceLikeFragmentsDetector.returnSentenceLikeFragments(allTextFragments);
+//        int countSentenceLikeFragments = 1;
+//        for (SentenceLike sentenceLikeFragment : listOfSentenceLike) {
+//            System.out.println("sentence like fragment #" + countSentenceLikeFragments++);
+//            List<NGram> generateNgramsUpto = NGramFinderBisForTextFragments.generateNgramsUpto(sentenceLikeFragment.getNgrams(), 5);
+//            for (TextFragment textFragment : generateNgramsUpto) {
+////                if (textFragment.getOriginalForm().equals("amazing")){
+////                    System.out.println("stop");
+////                }
+//                if (textFragment.getTypeOfTextFragmentEnum() == null) {
+//                    System.out.println("stop null fragment type");
 //                }
-                if (textFragment.getTypeOfTextFragmentEnum() == null) {
-                    System.out.println("stop null fragment type");
-                }
-                if (textFragment.getTypeOfTextFragmentEnum().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.TERM)) {
-                    System.out.println(textFragment.getOriginalForm());
-                }
-                if (textFragment.getTypeOfTextFragmentEnum().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM)) {
-                    NGram ngram = (NGram) textFragment;
-                    List<Term> terms = ngram.getTerms();
-                    for (Term term : terms) {
-                        System.out.print(term.getOriginalForm());
-                        System.out.print(' ');
-                    }
-                    System.out.println("");
-                }
-            }
-        }
+//                if (textFragment.getTypeOfTextFragmentEnum().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.TERM)) {
+//                    System.out.println(textFragment.getOriginalForm());
+//                }
+//                if (textFragment.getTypeOfTextFragmentEnum().equals(TypeOfTextFragment.TypeOfTextFragmentEnum.NGRAM)) {
+//                    NGram ngram = (NGram) textFragment;
+//                    List<Term> terms = ngram.getTerms();
+//                    for (Term term : terms) {
+//                        System.out.print(term.getOriginalForm());
+//                        System.out.print(' ');
+//                    }
+//                    System.out.println("");
+//                }
+//            }
+//        }
     }
 
     public static List<NGram> generateNgramsUpto(List<NGram> ngrams, int maxGramSize) {
