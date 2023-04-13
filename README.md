@@ -10,10 +10,14 @@ Why another tool for ngrams ?? **Because ngrams are not just a couple of terms s
 <dependency>
 	<groupId>net.clementlevallois.functions</groupId>
 	<artifcactId>umigon-ngram-ops</artifactId>
-	<version>0.12</version>
+	<version>0.13</version>
 </dependency>
 ```
 Or [check on Maven](https://central.sonatype.com/artifact/net.clementlevallois.functions/umigon-ngram-ops) to see the latest version.
+
+* 2023, April 13: version 0.13
+
+Refactored a loop to a parallel stream in the ngram duplicate cleaner
 
 * 2023, April 13: version 0.12
 

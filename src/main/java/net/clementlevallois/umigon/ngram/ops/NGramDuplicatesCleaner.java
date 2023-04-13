@@ -4,10 +4,13 @@ package net.clementlevallois.umigon.ngram.ops;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import net.clementlevallois.utils.Clock;
 import net.clementlevallois.utils.Multiset;
 
 /**
@@ -27,6 +30,7 @@ public class NGramDuplicatesCleaner {
     Iterator<String> setCurrentSubNGramsIterator;
     String innerNGram;
     String[] termsInBigram;
+    Clock clock;
 
     public NGramDuplicatesCleaner(Set<String> stopwordsParameter) {
         stopWords = stopwordsParameter;
@@ -54,12 +58,16 @@ public class NGramDuplicatesCleaner {
 
         //we start by removing all terms that appear just once in the corpus.
         // why? because we assume these terms are of null interest
-        while (itFreqList.hasNext()) {
-            entry = itFreqList.next();
-            if (entry.getValue() == 1 && removeSingleTerms) {
-                itFreqList.remove();
-            }
-        }
+        
+        clock = new Clock ("removing single terms", true);
+        Map<String,Integer> temp;
+        temp = mapNGrams.entrySet()
+                .parallelStream()
+                .filter(x -> x.getValue()>1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        mapNGrams = new HashMap(temp);
+        clock.closeAndPrintClock();
+        
 //        System.out.println("number of ngrams after purge of unique terms: " + mapNGrams.keySet().size());
 
         // then we remove the terms which appear less frequently individually than in combined expressions 
