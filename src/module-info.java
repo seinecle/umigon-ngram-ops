@@ -8,6 +8,7 @@ module net.clementlevallois.umigon.ngram.ops {
     
     requires net.clementlevallois.umigon.model;
     requires net.clementlevallois.utils;
+    requires junit;
     
     exports net.clementlevallois.umigon.ngram.ops;
 }

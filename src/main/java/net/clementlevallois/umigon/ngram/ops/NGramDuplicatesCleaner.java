@@ -46,10 +46,17 @@ public class NGramDuplicatesCleaner {
         // the higher the factor, the harder it is for "Union" to remain.
         // rule of thumb: on a small text, this factor should be higher.
         float factorRemovingIrrelevantUnigrams;
+        final int minOccurrences;
         if (mapNGrams.keySet().size() < 500) {
             factorRemovingIrrelevantUnigrams = 2f;
+            minOccurrences = 2;
         } else {
             factorRemovingIrrelevantUnigrams = 1.5f;
+            if (mapNGrams.keySet().size() > 10_000) {
+                minOccurrences = 3;
+            } else {
+                minOccurrences = 2;
+            }
         }
 
         multisetWords = new Multiset();
@@ -58,18 +65,9 @@ public class NGramDuplicatesCleaner {
 
         //we start by removing all terms that appear just once in the corpus.
         // why? because we assume these terms are of null interest
-        
-        clock = new Clock ("removing single terms", true);
-        Map<String,Integer> temp;
-        temp = mapNGrams.entrySet()
-                .parallelStream()
-                .filter(x -> x.getValue()>1)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        mapNGrams = new HashMap(temp);
-        clock.closeAndPrintClock();
-        
-//        System.out.println("number of ngrams after purge of unique terms: " + mapNGrams.keySet().size());
+        mapNGrams.entrySet().removeIf(x -> x.getValue() < minOccurrences);
 
+//        System.out.println("number of ngrams after purge of unique terms: " + mapNGrams.keySet().size());
         // then we remove the terms which appear less frequently individually than in combined expressions 
         for (int i = maxGrams - 1; i > 0; i--) {
             itFreqList = mapNGrams.entrySet().iterator();
