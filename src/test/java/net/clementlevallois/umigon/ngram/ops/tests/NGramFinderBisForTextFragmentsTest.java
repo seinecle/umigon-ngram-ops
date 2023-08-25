@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
  */
-package net.clementlevallois.umigon.ngram.ops;
+package net.clementlevallois.umigon.ngram.ops.tests;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -11,6 +11,8 @@ import java.util.Set;
 import net.clementlevallois.umigon.model.NGram;
 import net.clementlevallois.umigon.model.SentenceLike;
 import net.clementlevallois.umigon.model.TextFragment;
+import net.clementlevallois.umigon.ngram.ops.NGramFinderBisForTextFragments;
+import net.clementlevallois.umigon.ngram.ops.SentenceLikeFragmentsDetector;
 import net.clementlevallois.umigon.tokenizer.controller.UmigonTokenizer;
 import org.junit.Test;
 import static org.junit.Assert.*;

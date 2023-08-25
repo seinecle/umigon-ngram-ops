@@ -10,10 +10,14 @@ Why another tool for ngrams ?? **Because ngrams are not just a couple of terms s
 <dependency>
 	<groupId>net.clementlevallois.functions</groupId>
 	<artifcactId>umigon-ngram-ops</artifactId>
-	<version>0.13</version>
+	<version>0.16</version>
 </dependency>
 ```
 Or [check on Maven](https://central.sonatype.com/artifact/net.clementlevallois.functions/umigon-ngram-ops) to see the latest version.
+
+* 2023, Aug 25: version 0.16
+
+Updated the dependencies on umigon-model and umigon-tokenizer
 
 * 2023, April 13: version 0.13
 

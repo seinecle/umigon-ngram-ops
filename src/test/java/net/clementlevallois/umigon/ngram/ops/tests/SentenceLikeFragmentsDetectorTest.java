@@ -1,4 +1,4 @@
-package net.clementlevallois.umigon.ngram.ops;
+package net.clementlevallois.umigon.ngram.ops.tests;
 
 import java.io.IOException;
 import java.util.HashSet;
