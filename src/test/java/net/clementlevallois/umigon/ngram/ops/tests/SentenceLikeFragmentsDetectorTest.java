@@ -28,27 +28,82 @@ public class SentenceLikeFragmentsDetectorTest {
     public void testOnMultipleSentences() {
         String example1 = "Je vais super bien :-), vraiment vous êtes des champions (même toi!)";
         String example2 = "(j'adore le chocolat),wow.";
-        List<SentenceLike> operations = operations(example1);
-        StringBuilder sb;
-        int i = 0;
-        for (SentenceLike sentenceLike : operations) {
-            sb = new StringBuilder();
-            for (TextFragment textFragment : sentenceLike.getTextFragments()) {
-                sb.append(textFragment.getOriginalForm());
-            }
-            String result = sb.toString();
-            if (i == 0) {
-                assertEquals(result, "Je vais super bien :-),");
-            }
-            if (i == 1) {
-                assertEquals(result, " vraiment vous êtes des champions ");
-            }
-            if (i == 2) {
-                assertEquals(result, "(même toi!)");
-            }
-            i++;
-        }
+        String example3 = "c'est ‘Beautiful ,And Sad At The Same Time’ comme qui dirait";
+        List<String> examples = List.of(example1, example2, example3);
+        int counterExamples = 1;
+        for (String example : examples) {
+            List<SentenceLike> operations = operations(example);
+            StringBuilder sb;
 
+            if (counterExamples == 1) {
+                int i = 0;
+                for (SentenceLike sentenceLike : operations) {
+                    sb = new StringBuilder();
+                    for (TextFragment textFragment : sentenceLike.getTextFragments()) {
+                        sb.append(textFragment.getOriginalForm());
+                    }
+                    String result = sb.toString();
+                    if (i == 0) {
+                        assertEquals("Je vais super bien :-),", result);
+                    }
+                    if (i == 1) {
+                        assertEquals(" vraiment vous êtes des champions (", result);
+                    }
+                    if (i == 2) {
+                        assertEquals("même toi!)", result);
+                    }
+                    i++;
+                }
+            }
+            if (counterExamples == 2) {
+                int i = 0;
+                for (SentenceLike sentenceLike : operations) {
+                    sb = new StringBuilder();
+                    for (TextFragment textFragment : sentenceLike.getTextFragments()) {
+                        sb.append(textFragment.getOriginalForm());
+                    }
+                    String result = sb.toString();
+                    if (i == 0) {
+                        assertEquals("(", result);
+                    }
+                    if (i == 1) {
+                        assertEquals("j'adore le chocolat)", result);
+                    }
+                    if (i == 2) {
+                        assertEquals(",", result);
+                    }
+                    if (i == 3) {
+                        assertEquals("wow.", result);
+                    }
+                    i++;
+                }
+            }
+            if (counterExamples == 3) {
+                int i = 0;
+                for (SentenceLike sentenceLike : operations) {
+                    sb = new StringBuilder();
+                    for (TextFragment textFragment : sentenceLike.getTextFragments()) {
+                        sb.append(textFragment.getOriginalForm());
+                    }
+                    String result = sb.toString();
+                    System.out.println("fragment " + i + ": " + result);
+                    if (i == 0) {
+                        assertEquals("c'est ‘", result);
+                    }
+                    if (i == 1) {
+                        assertEquals("Beautiful ,", result);
+                    }
+                    if (i == 2) {
+                        assertEquals("And Sad At The Same Time’", result);
+                    }
+                    if (i == 3) {
+                        assertEquals(" comme qui dirait", result);
+                    }
+                    i++;
+                }
+            }
+            counterExamples++;
+        }
     }
 
     private List<SentenceLike> operations(String example) {

@@ -38,6 +38,7 @@ public class NGramFinderBisForTextFragmentsTest {
         List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
         List<SentenceLike> listOfSentenceLike = SentenceLikeFragmentsDetector.returnSentenceLikeFragments(allTextFragments);
 
+        assertEquals("This", listOfSentenceLike.get(0).getTextFragments().get(0).getOriginalForm());
         assertEquals("(", listOfSentenceLike.get(1).getTextFragments().get(0).getOriginalForm());
 
         List<NGram> generateNgramsUpto = NGramFinderBisForTextFragments.generateNgramsUpto(listOfSentenceLike.get(0).getNgrams(), 5);
