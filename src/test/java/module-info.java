@@ -8,5 +8,6 @@ open module net.clementlevallois.umigon.ngram.ops.tests {
     requires net.clementlevallois.umigon.model;
     requires net.clementlevallois.utils;
     requires net.clementlevallois.umigon.tokenizer;
-    requires junit;
+    requires org.junit.jupiter;
+    requires org.assertj.core;
 }

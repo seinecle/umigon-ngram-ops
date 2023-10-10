@@ -10,10 +10,14 @@ Why another tool for ngrams ?? **Because ngrams are not just a couple of terms s
 <dependency>
 	<groupId>net.clementlevallois.functions</groupId>
 	<artifcactId>umigon-ngram-ops</artifactId>
-	<version>0.16</version>
+	<version>0.17</version>
 </dependency>
 ```
 Or [check on Maven](https://central.sonatype.com/artifact/net.clementlevallois.functions/umigon-ngram-ops) to see the latest version.
+
+* 2023, Oct 10: version 0.17
+
+Improved the sentence detector so that it captures correctly the content in double quotes, parentheses and other forms of apostrophs. Simplified the code of the sentence detector by offloading the code of the main method in separate smaller methods.
 
 * 2023, Aug 25: version 0.16
 
