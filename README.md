@@ -10,10 +10,15 @@ Why another tool for ngrams ?? **Because ngrams are not just a couple of terms s
 <dependency>
 	<groupId>net.clementlevallois.functions</groupId>
 	<artifcactId>umigon-ngram-ops</artifactId>
-	<version>0.17</version>
+	<version>0.18</version>
 </dependency>
 ```
 Or [check on Maven](https://central.sonatype.com/artifact/net.clementlevallois.functions/umigon-ngram-ops) to see the latest version.
+
+
+* 2023, Oct 10: version 0.18
+
+Fixed an incorrect setting of the index when creating ngrams
 
 * 2023, Oct 10: version 0.17
 
