@@ -29,19 +29,23 @@ public class NGramFinderBisForTextFragments {
 
         ListIterator<NGram> it = ngrams.listIterator();
         while (it.hasNext()) {
-            NGram word = it.next();
-            if (!(word instanceof NGram)) {
+            NGram unigram = it.next();
+
+            if (!(unigram instanceof NGram)) {
                 System.out.println("alert a non ngram detected in method generateNgramsUpto");
-                System.out.println("textFragment was: " + word.getOriginalForm());
+                System.out.println("textFragment was: " + unigram.getOriginalForm());
                 continue;
             }
+            
+            // set sentence based indices on the ngram
+            unigram.setIndexOrdinalInSentence(ngrams.indexOf(unigram));
 
             //1- add the word itself
-            textFragmentsAugmentedWithNGrams.add(word);
+            textFragmentsAugmentedWithNGrams.add(unigram);
 
             //2- open a new NGram
             ngram = new NGram();
-            ngram.getTerms().add(word.getTerms().get(0));
+            ngram.getTerms().add(unigram.getTerms().get(0));
             ngramSize = 1;
 
             // call to 'previous()' to stay on the same term on the next iteration forward
@@ -49,13 +53,15 @@ public class NGramFinderBisForTextFragments {
 
             //2- insert prevs of the word and add those too
             while (it.hasPrevious() && ngramSize < maxGramSize) {
-                ngram.getTerms().add(0, it.previous().getTerms().get(0));
+                NGram previousUnigram = it.previous();
+                Term previousTerm = previousUnigram.getTerms().get(0);
+                ngram.getTerms().add(0, previousTerm);
                 NGram newNgram = new NGram();
                 newNgram.getTerms().addAll(ngram.getTerms());
-                newNgram.setIndexCardinal(newNgram.getTerms().get(0).getIndexCardinal());
-                newNgram.setIndexOrdinal(newNgram.getTerms().get(0).getIndexOrdinal());
-                newNgram.setIndexCardinalInSentence(newNgram.getTerms().get(0).getIndexCardinalInSentence());
-                newNgram.setIndexOrdinalInSentence(newNgram.getTerms().get(0).getIndexOrdinalInSentence());
+                newNgram.setIndexCardinal(previousUnigram.getIndexCardinal());
+                newNgram.setIndexOrdinal(previousUnigram.getIndexOrdinal());
+                newNgram.setIndexCardinalInSentence(previousUnigram.getIndexCardinalInSentence());
+                newNgram.setIndexOrdinalInSentence(previousUnigram.getIndexOrdinalInSentence());
                 StringBuilder sb = new StringBuilder();
                 for (Term term : newNgram.getTerms()) {
                     sb.append(term.getOriginalForm());

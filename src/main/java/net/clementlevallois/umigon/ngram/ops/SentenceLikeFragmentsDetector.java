@@ -37,9 +37,6 @@ public class SentenceLikeFragmentsDetector {
         while (it.hasNext()) {
             textFagmentAlreadyAddedToASentence = false;
             TextFragment nextTextFragment = it.next();
-            if (nextTextFragment.getOriginalForm().equals("(")) {
-                System.out.println("sto");
-            }
             TypeOfTextFragmentEnum typeOfTextFragment = nextTextFragment.getTypeOfTextFragmentEnum();
 
             switch (typeOfTextFragment) {
@@ -106,7 +103,6 @@ public class SentenceLikeFragmentsDetector {
 
     private void addTermToNGramsOfCurrentSentence(TextFragment nextTextFragment) {
         Term term = (Term) nextTextFragment;
-        term.setIndexOrdinalInSentence(listOfNGrams.size());
         NGram ngram = new NGram();
         ngram.setIndexCardinal(term.getIndexCardinal());
         ngram.setIndexOrdinal(term.getIndexOrdinal());

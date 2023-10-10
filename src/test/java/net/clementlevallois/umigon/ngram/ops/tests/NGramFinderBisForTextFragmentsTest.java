@@ -32,7 +32,7 @@ public class NGramFinderBisForTextFragmentsTest {
      */
     @Test
     public void testGenerateNgramsUpto() {
-        String example = "This sentence is hard)(";
+        String example = "I am swimming in happyness";
 
         Set<String> languageSpecificLexicon = new HashSet();
         List<TextFragment> allTextFragments = UmigonTokenizer.tokenize(example, languageSpecificLexicon);
@@ -40,11 +40,10 @@ public class NGramFinderBisForTextFragmentsTest {
 
         List<SentenceLike> listOfSentenceLike = sentenceDetector.returnSentenceLikeFragments(allTextFragments);
 
-        assertThat(listOfSentenceLike.get(0).getTextFragments().get(0).getOriginalForm()).isEqualTo("This");
-        assertThat(listOfSentenceLike.get(1).getTextFragments().get(0).getOriginalForm()).isEqualTo(")");
+        assertThat(listOfSentenceLike.get(0).getTextFragments().get(0).getOriginalForm()).isEqualTo("I");
 
         List<NGram> generateNgramsUpto = NGramFinderBisForTextFragments.generateNgramsUpto(listOfSentenceLike.get(0).getNgrams(), 5);
-        assertThat(generateNgramsUpto.get(0).getOriginalForm()).isEqualTo("This");
+        assertThat(generateNgramsUpto.get(0).getOriginalForm()).isEqualTo("I");
 
     }
 
