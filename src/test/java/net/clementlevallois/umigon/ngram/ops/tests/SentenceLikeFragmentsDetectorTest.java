@@ -31,7 +31,8 @@ public class SentenceLikeFragmentsDetectorTest {
         String example4 = " \"We take seriously the government's responsibility -- yes. We welcome it.\" ";
         String example5 = " \"We take seriously the government's responsibility, really";
         String example6 = "\"We take 'seriously' the government's responsibility\"";
-        List<String> examples = List.of(example1, example2, example3, example4, example5, example6);
+        String example7 = "‘Beautiful And Sad At The Same Time’: Ukrainian Cultural Festival Takes On A Deeper Meaning This Year";
+        List<String> examples = List.of(example1, example2, example3, example4, example5, example6, example7);
         int counterExamples = 1;
         for (String example : examples) {
             List<SentenceLike> operations = operations(example);
@@ -151,6 +152,24 @@ public class SentenceLikeFragmentsDetectorTest {
                     System.out.println("fragment " + i + ": " + result);
                     if (i == 0) {
                         assertThat(result).isEqualTo(example6);
+                    }
+                    i++;
+                }
+            }
+            if (counterExamples == 7) {
+                int i = 0;
+                for (SentenceLike sentenceLike : operations) {
+                    sb = new StringBuilder();
+                    for (TextFragment textFragment : sentenceLike.getTextFragments()) {
+                        sb.append(textFragment.getOriginalForm());
+                    }
+                    String result = sb.toString();
+                    System.out.println("fragment " + i + ": " + result);
+                    if (i == 0) {
+                        assertThat(result).isEqualTo("‘Beautiful And Sad At The Same Time’");
+                    }
+                    if (i == 1) {
+                        assertThat(result).isEqualTo(": Ukrainian Cultural Festival Takes On A Deeper Meaning This Year");
                     }
                     i++;
                 }

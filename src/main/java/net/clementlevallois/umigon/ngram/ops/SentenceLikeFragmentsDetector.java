@@ -28,6 +28,8 @@ public class SentenceLikeFragmentsDetector {
     boolean textFagmentAlreadyAddedToASentence;
     boolean openingPunctuationIdentified = false;
     String expectedClosingPunctuationSign = "";
+    int sentenceLikeFragmentsCounter = 0;
+
 
     public List<SentenceLike> returnSentenceLikeFragments(List<TextFragment> textFragments) {
         sentenceLike.setIndexCardinal(0);
@@ -80,6 +82,7 @@ public class SentenceLikeFragmentsDetector {
         if (!sentenceLike.getTextFragments().isEmpty()) {
             listOfSentenceLikeFragments.add(sentenceLike);
         }
+        sentenceLikeFragmentsCounter++;
         sentenceLike = new SentenceLike();
         sentenceLike.setIndexOrdinal(listOfSentenceLikeFragments.size());
         listOfNGrams = new ArrayList();
@@ -97,6 +100,7 @@ public class SentenceLikeFragmentsDetector {
             sentenceLike.setIndexCardinal(tf.getIndexCardinal());
         }
         tf.setIndexOrdinalInSentence(sentenceLike.getTextFragments().size());
+        tf.setSentenceLikeFragmentIndex(sentenceLikeFragmentsCounter);
         sentenceLike.getTextFragments().add(tf);
         textFagmentAlreadyAddedToASentence = true;
     }
@@ -107,6 +111,7 @@ public class SentenceLikeFragmentsDetector {
         ngram.setIndexCardinal(term.getIndexCardinal());
         ngram.setIndexOrdinal(term.getIndexOrdinal());
         ngram.setIndexOrdinalInSentence(term.getIndexOrdinalInSentence());
+        ngram.setSentenceLikeFragmentIndex(sentenceLikeFragmentsCounter);
         ngram.getTerms().add(term);
         ngram.setOriginalForm(term.getOriginalForm());
         listOfNGrams.add(ngram);
